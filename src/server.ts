@@ -24,7 +24,36 @@ let planets: Planets = [
   ];
 
 app.get("/getPlanets", (req: Request, res: Response) => {
-    res.send(planets)
+  res.status(200).json(planets)
+})
+
+app.get("/getPlanets/:id", (req: Request, res: Response) => {
+  const {id} = req.params
+  const planet = planets.find(p => p.id === Number(id))
+  res.status(200).json(planet)
+})
+
+app.post("/addPlanet", (req: Request, res: Response) => {
+  const {id, name} = req.body;
+  const newPlanet = {id, name};
+  planets = [...planets, newPlanet];
+  console.log(planets)
+  res.status(201).json({msg: 'the planet is created'})
+})
+
+app.put("/editPlanet/:id", (req: Request, res: Response) => {
+  const {id} = req.params;
+  const {name} = req.body;
+  planets = planets.map((p) => (p.id === Number(id) ? {...p, name} : p))
+  console.log(planets)
+  res.status(201).json({msg: 'the planet is edited'})
+})
+
+app.delete("/deletePlanet/:id", (req: Request, res: Response) => {
+  const {id} = req.params;
+  planets = planets.filter((p) => (p.id !== Number(id)))
+  
+  res.status(200).json({msg: 'the planet is deleted'})
 })
 
 
