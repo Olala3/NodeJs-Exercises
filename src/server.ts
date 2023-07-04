@@ -1,6 +1,7 @@
 import express from "express";
 import {getAll, getOneById, create, updateById, deleteById, updatePlanetImage} from '../src/controllers/planets'
 import multer from 'multer';
+import usersRouter from './users';
 
 require('dotenv').config();
 
@@ -24,6 +25,7 @@ app.delete("/deletePlanet/:id", deleteById)
 
 app.post('/planets/:id/image', upload.single('image'), updatePlanetImage);
 
+app.use('/users', usersRouter);
 
 
 app.listen(port, () => {
