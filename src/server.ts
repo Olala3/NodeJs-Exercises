@@ -2,6 +2,8 @@ import express from "express";
 import {getAll, getOneById, create, updateById, deleteById, updatePlanetImage} from '../src/controllers/planets'
 import multer from 'multer';
 
+require('dotenv').config();
+
 const upload = multer({ dest: 'uploads/' });
 
 const app = express();
