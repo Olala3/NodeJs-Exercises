@@ -1,5 +1,9 @@
 import express from "express";
-import {getAll, getOneById, create, updateById, deleteById} from '../src/controllers/planets'
+import {getAll, getOneById, create, updateById, deleteById, updatePlanetImage} from '../src/controllers/planets'
+import multer from 'multer';
+
+const upload = multer({ dest: 'uploads/' });
+
 const app = express();
 const port = 3000;
 
@@ -15,6 +19,9 @@ app.post("/addPlanet", create)
 app.put("/editPlanet/:id", updateById)
 
 app.delete("/deletePlanet/:id", deleteById)
+
+app.post('/planets/:id/image', upload.single('image'), updatePlanetImage);
+
 
 
 app.listen(port, () => {

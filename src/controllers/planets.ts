@@ -60,4 +60,27 @@ const deleteById = async (req: Request, res: Response) => {
     }
 };
 
-export {getAll, getOneById, create, updateById, deleteById}
+
+const updatePlanetImage = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    // Check if req.file exists
+    if (!req.file) {
+        res.status(400).json({ error: 'No file uploaded' });
+        return;
+    }
+
+    const { path } = req.file;
+
+    try {
+        const query = 'UPDATE planets SET image=$2 WHERE id=$1';
+        await db.none(query, [id, path]);
+
+        res.status(200).json({ msg: 'Planet image updated' });
+    } catch (error) {
+        console.error('Error updating planet image:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+export {getAll, getOneById, create, updateById, deleteById, updatePlanetImage}
